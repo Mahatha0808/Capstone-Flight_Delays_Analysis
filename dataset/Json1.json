@@ -1,0 +1,42 @@
+{
+	"name": "Json1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "airline_information.json",
+				"container": "flight-data"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"AirlineCode": {
+					"type": "string"
+				},
+				"AirlineName": {
+					"type": "string"
+				},
+				"Country": {
+					"type": "string"
+				},
+				"FleetSize": {
+					"type": "integer"
+				},
+				"AverageAge": {
+					"type": "integer"
+				},
+				"Alliance": {
+					"type": "string"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

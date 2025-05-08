@@ -1,0 +1,9 @@
+{
+	"name": "adf-flight-delay",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "8149bcb3-7e25-4b44-bfe9-f945f55ba10d",
+		"tenantId": "56761bc7-bede-407f-9038-0e3e9c4decbf"
+	}
+}

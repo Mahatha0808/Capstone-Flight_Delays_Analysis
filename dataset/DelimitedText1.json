@@ -1,0 +1,117 @@
+{
+	"name": "DelimitedText1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "flight_delays_cancellations.csv",
+				"container": "flight-data"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "FlightID",
+				"type": "String"
+			},
+			{
+				"name": "Airline",
+				"type": "String"
+			},
+			{
+				"name": "FlightNumber",
+				"type": "String"
+			},
+			{
+				"name": "OriginAirport",
+				"type": "String"
+			},
+			{
+				"name": "DestinationAirport",
+				"type": "String"
+			},
+			{
+				"name": "ScheduledDeparture",
+				"type": "String"
+			},
+			{
+				"name": "ActualDeparture",
+				"type": "String"
+			},
+			{
+				"name": "ScheduledArrival",
+				"type": "String"
+			},
+			{
+				"name": "ActualArrival",
+				"type": "String"
+			},
+			{
+				"name": "DepartureDelay",
+				"type": "String"
+			},
+			{
+				"name": "ArrivalDelay",
+				"type": "String"
+			},
+			{
+				"name": "Cancelled",
+				"type": "String"
+			},
+			{
+				"name": "CancellationReason",
+				"type": "String"
+			},
+			{
+				"name": "Diverted",
+				"type": "String"
+			},
+			{
+				"name": "AirTime",
+				"type": "String"
+			},
+			{
+				"name": "Distance",
+				"type": "String"
+			},
+			{
+				"name": "TaxiOut",
+				"type": "String"
+			},
+			{
+				"name": "TaxiIn",
+				"type": "String"
+			},
+			{
+				"name": "CarrierDelay",
+				"type": "String"
+			},
+			{
+				"name": "WeatherDelay",
+				"type": "String"
+			},
+			{
+				"name": "NASDelay",
+				"type": "String"
+			},
+			{
+				"name": "SecurityDelay",
+				"type": "String"
+			},
+			{
+				"name": "LateAircraftDelay",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

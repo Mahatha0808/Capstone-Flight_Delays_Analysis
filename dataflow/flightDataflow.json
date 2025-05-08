@@ -1,0 +1,97 @@
+{
+	"name": "flightDataflow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText1",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "cleanedflightData",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "select1"
+				},
+				{
+					"name": "droppingnullvalue"
+				},
+				{
+					"name": "derivedColumn1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          FlightID as integer,",
+				"          Airline as string,",
+				"          FlightNumber as integer,",
+				"          OriginAirport as string,",
+				"          DestinationAirport as string,",
+				"          ScheduledDeparture as timestamp,",
+				"          ActualDeparture as timestamp,",
+				"          ScheduledArrival as timestamp,",
+				"          ActualArrival as timestamp,",
+				"          DepartureDelay as float,",
+				"          ArrivalDelay as float,",
+				"          Cancelled as boolean,",
+				"          CancellationReason as string,",
+				"          Diverted as boolean,",
+				"          AirTime as float,",
+				"          Distance as integer,",
+				"          TaxiOut as string,",
+				"          TaxiIn as string,",
+				"          CarrierDelay as string,",
+				"          WeatherDelay as string,",
+				"          NASDelay as string,",
+				"          SecurityDelay as string,",
+				"          LateAircraftDelay as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 select(mapColumn(",
+				"          FlightID,",
+				"          Airline,",
+				"          FlightNumber,",
+				"          OriginAirport,",
+				"          DestinationAirport,",
+				"          ScheduledDeparture,",
+				"          ActualDeparture,",
+				"          ScheduledArrival,",
+				"          ActualArrival,",
+				"          DepartureDelay,",
+				"          ArrivalDelay,",
+				"          Cancelled,",
+				"          CancellationReason,",
+				"          Diverted,",
+				"          AirTime,",
+				"          Distance",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 filter(!isNull(ScheduledDeparture)&&",
+				"!isNull(ActualDeparture)&&",
+				"!isNull(ScheduledArrival)&&",
+				"!isNull(ActualArrival)) ~> droppingnullvalue",
+				"droppingnullvalue derive(CancellationReason = iif(isNull(CancellationReason),\"Unknown\",CancellationReason),",
+				"          DepartureDelay = iif(isNull(DepartureDelay),0.0,DepartureDelay)) ~> derivedColumn1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}

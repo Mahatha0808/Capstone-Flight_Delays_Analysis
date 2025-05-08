@@ -1,0 +1,74 @@
+{
+	"name": "AirlineCleanDataflow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Json1",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Json2",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "cast1"
+				},
+				{
+					"name": "filter1"
+				},
+				{
+					"name": "select1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          AirlineCode as string,",
+				"          AirlineName as string,",
+				"          Country as string,",
+				"          FleetSize as integer,",
+				"          AverageAge as integer,",
+				"          Alliance as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'arrayOfDocuments') ~> source1",
+				"source1 cast(output(",
+				"          AirlineCode as string,",
+				"          AirlineName as string,",
+				"          Country as string,",
+				"          FleetSize as integer,",
+				"          AverageAge as integer,",
+				"          Alliance as string",
+				"     ),",
+				"     errors: true) ~> cast1",
+				"cast1 filter(AirlineName !=\"UNKNOWN\") ~> filter1",
+				"filter1 select(mapColumn(",
+				"          AirlineCode,",
+				"          AirlineName,",
+				"          Country,",
+				"          FleetSize,",
+				"          AverageAge",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}
