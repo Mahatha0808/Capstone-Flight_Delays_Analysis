@@ -9,7 +9,7 @@
 						"referenceName": "DelimitedText1",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "FlightRawData"
 				}
 			],
 			"sinks": [
@@ -23,7 +23,7 @@
 			],
 			"transformations": [
 				{
-					"name": "select1"
+					"name": "RemovingUncessaryCol"
 				},
 				{
 					"name": "droppingnullvalue"
@@ -60,8 +60,11 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source1",
-				"source1 select(mapColumn(",
+				"     ignoreNoFilesFound: false,",
+				"     partitionBy('fixed', 2,",
+				"          ERROR_FUNCTION('')",
+				"     )) ~> FlightRawData",
+				"FlightRawData select(mapColumn(",
 				"          FlightID,",
 				"          Airline,",
 				"          FlightNumber,",
@@ -80,11 +83,13 @@
 				"          Distance",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 filter(!isNull(ScheduledDeparture)&&",
+				"     skipDuplicateMapOutputs: true) ~> RemovingUncessaryCol",
+				"RemovingUncessaryCol filter(!isNull(ScheduledDeparture)&&",
 				"!isNull(ActualDeparture)&&",
 				"!isNull(ScheduledArrival)&&",
-				"!isNull(ActualArrival)) ~> droppingnullvalue",
+				"!isNull(ActualArrival) &&",
+				"(Airline != \"UNKNOWN\")",
+				") ~> droppingnullvalue",
 				"droppingnullvalue derive(CancellationReason = iif(isNull(CancellationReason),\"Unknown\",CancellationReason),",
 				"          DepartureDelay = iif(isNull(DepartureDelay),0.0,DepartureDelay)) ~> derivedColumn1",
 				"derivedColumn1 sink(allowSchemaDrift: true,",

@@ -1,5 +1,5 @@
 {
-	"name": "dataflow1",
+	"name": "WeatherDataFlow",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -42,8 +42,11 @@
 				"          Pressure as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source1",
+				"     validateSchema: true,",
+				"     ignoreNoFilesFound: false,",
+				"     partitionBy('fixed', 2,",
+				"          ERROR_FUNCTION('')",
+				"     )) ~> source1",
 				"source1 cast(output(",
 				"          Date as date,",
 				"          AirportCode as string,",

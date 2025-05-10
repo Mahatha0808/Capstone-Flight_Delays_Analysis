@@ -1,0 +1,24 @@
+{
+	"name": "trigger1",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pipeline1",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/flight-data/blobs/",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/81c97be5-d6a6-4431-89a7-d743a0bfcb11/resourceGroups/flight_delay_rg/providers/Microsoft.Storage/storageAccounts/adls4flightdelay",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}
